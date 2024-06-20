@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Container, TextField, Button, Typography, Box, Alert } from '@mui/material';
+import { Container, TextField, Button, Typography, Box, Alert, Link } from '@mui/material';
 import './Login.css';
 
 function Login() {
@@ -58,6 +58,9 @@ function Login() {
         >
           Login
         </Button>
+        <Typography variant="body2" align="center">
+          Don't have an account? <Link href="/register">Register here</Link>
+        </Typography>
       </Box>
     </Container>
   );

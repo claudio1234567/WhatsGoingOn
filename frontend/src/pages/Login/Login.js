@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Container, TextField, Button, Typography, Box, Alert } from '@mui/material';
 import './Login.css';
 
 function Login() {
@@ -12,9 +13,7 @@ function Login() {
     try {
       const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
       console.log('Login successful:', response.data);
-      // Salva il token di autenticazione (ad esempio, localStorage)
       localStorage.setItem('auth-token', response.data);
-      // Reindirizza l'utente alla pagina principale
       window.location.href = '/';
     } catch (error) {
       setError('Login failed. Please check your credentials.');
@@ -23,31 +22,44 @@ function Login() {
   };
 
   return (
-    <div className="login-container">
-      <form onSubmit={handleSubmit} className="login-form">
-        <h2>Login</h2>
-        {error && <p className="error">{error}</p>}
-        <div className="form-group">
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-    </div>
+    <Container maxWidth="xs" className="login-container">
+      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Typography component="h1" variant="h5">Login</Typography>
+        {error && <Alert severity="error">{error}</Alert>}
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          id="email"
+          label="Email"
+          name="email"
+          autoComplete="email"
+          autoFocus
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Password"
+          type="password"
+          id="password"
+          autoComplete="current-password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+        >
+          Login
+        </Button>
+      </Box>
+    </Container>
   );
 }
 

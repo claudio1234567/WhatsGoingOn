@@ -11,10 +11,17 @@ body, html {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-image: url('../../assets/bg.png');
+
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
+}
+
+.MuiContainer-root {
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
 }
 
 .login-form {

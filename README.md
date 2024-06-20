@@ -16,4 +16,5 @@ npx create-react-app my-messaging-app
 cd my-messaging-app
 
 # Avvio del progetto
-npm start
+node index.js   Backend
+npm start Frontend

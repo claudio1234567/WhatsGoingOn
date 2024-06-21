@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 router.post('/register', async (req, res) => {
   const { nome, cognome, email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
-  const user = new User({ nome, cognome, email, password: hashedPassword });
+  const user = new User({ nome, cognome, email, password: hashedPassword, chats: []});
   try {
     await user.save();
     res.status(201).send('User registered');
@@ -21,6 +21,7 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
+  console.log(user); 
   if (!user) return res.status(400).send('User not found');
   const validPassword = await bcrypt.compare(password, user.password);
   if (!validPassword) return res.status(400).send('Invalid password');

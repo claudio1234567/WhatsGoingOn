@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, List, ListItem, ListItemText, Divider } from '@mui/material';
+import { Box, Button, List, ListItem, ListItemText, Divider, TextField,InputAdornment } from '@mui/material';
 import './Home.css';
+import SearchIcon from '@mui/icons-material/Search';
+
 
 function Home() {
   const navigate = useNavigate();
   const [selectedChat, setSelectedChat] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleLogout = () => {
     localStorage.removeItem('auth-token');
@@ -36,8 +39,23 @@ function Home() {
     <Box className="home-container" sx={{ display: 'flex', height: '100vh' }}>
       {/* Lista delle Chat */}
       <Box sx={{ width: '30%', borderRight: '1px solid #ccc', overflowY: 'auto' }}>
+          <TextField
+      fullWidth
+      variant="outlined"
+      placeholder="Cerca"
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+      sx={{ m: 1, height: '40px', input: { padding: '10px 14px' } }}
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <SearchIcon />
+          </InputAdornment>
+        )
+      }}
+    />
         <List>
-          {chats.map(chat => (
+          {chats.filter(chat => chat.name.toLowerCase().includes(searchTerm.toLowerCase())).map(chat => (
             <React.Fragment key={chat.id}>
               <ListItem onClick={() => setSelectedChat(chat)}>
                 <ListItemText primary={chat.name} secondary={chat.lastMessage} />

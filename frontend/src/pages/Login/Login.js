@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Container, TextField, Button, Typography, Box, Alert, Link } from '@mui/material';
+import { login } from '../../api/auth';
 import './Login.css';
 
 function Login() {
@@ -11,9 +11,9 @@ function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
-      console.log('Login successful:', response.data);
-      localStorage.setItem('auth-token', response.data);
+      const data = await login(email, password);
+      console.log('Login successful:', data);
+      localStorage.setItem('auth-token', data.token); // Assumendo che `data.token` contenga il token
       window.location.href = '/';
     } catch (error) {
       setError('Login failed. Please check your credentials.');

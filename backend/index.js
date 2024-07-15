@@ -4,7 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
-
+const userRoutes = require('./routes/user');
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -20,6 +20,9 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 
   // Rotte
 app.use('/api/auth', authRoutes);
+
+app.use('/api/user', userRoutes);
+
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);

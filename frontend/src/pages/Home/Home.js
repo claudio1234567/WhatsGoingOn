@@ -1,20 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, List, ListItem, ListItemText, Divider, TextField,InputAdornment } from '@mui/material';
+import { Box, List, ListItem, ListItemText, Divider, TextField, InputAdornment, AppBar, Toolbar, IconButton, Avatar, Menu, MenuItem } from '@mui/material';
 import './Home.css';
 import SearchIcon from '@mui/icons-material/Search';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import AddIcon from '@mui/icons-material/Add';
+import {getUserInfo} from '../../api/user';
 
 
 function Home() {
   const navigate = useNavigate();
   const [selectedChat, setSelectedChat] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [userInfo, setUserInfo] = useState(null); // Inizializzazione dello stato userInfo a null
+
+  useEffect(() => {
+    const token = localStorage.getItem('auth-token');
+    if (!token) {
+      navigate('/login'); // Reindirizza al login se non c'è token
+    } else {
+        getUserInfo(token).then(data => {
+        setUserInfo(data); // Imposta le informazioni dell'utente
+      }).catch(error => {
+        console.error('Impossibile recuperare le informazioni dell\'utente:', error);
+        // Gestisci qui come preferisci, es. mostrare un messaggio, reindirizzare, etc.
+      });
+    }
+  }, [navigate]); // Dipendenze useEffect
 
   const handleLogout = () => {
     localStorage.removeItem('auth-token');
     navigate('/login');
   };
 
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const chats = [
     { id: 1, name: 'User 1', lastMessage: 'Hello!' },
     { id: 2, name: 'User 2', lastMessage: 'How are you?' },
@@ -39,6 +65,36 @@ function Home() {
     <Box className="home-container" sx={{ display: 'flex', height: '100vh' }}>
       {/* Lista delle Chat */}
       <Box sx={{ width: '30%', borderRight: '1px solid #ccc', overflowY: 'auto' }}>
+      <AppBar position="static">
+        <Toolbar>
+          <Avatar sx={{ bgcolor: 'secondary.main' }}>{userInfo ? userInfo.nome : '?'}</Avatar>
+          <Box sx={{ flexGrow: 1 }} />
+          <IconButton color="inherit" onClick={() => { /* logic to start a new chat */ }}>
+            <AddIcon />
+          </IconButton>
+          <IconButton color="inherit" onClick={handleMenu}>
+            <MoreVertIcon />
+          </IconButton>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+          </Menu>
+        </Toolbar>
+      </AppBar>
+
           <TextField
       fullWidth
       variant="outlined"
@@ -92,12 +148,7 @@ function Home() {
             <Box sx={{ textAlign: 'center', marginTop: '2rem' }}>Select a chat to start messaging</Box>
           )}
         </Box>
-        {/* Pulsante di Logout */}
-        <Box sx={{ padding: '1rem', borderTop: '1px solid #ccc' }}>
-          <Button variant="contained" color="primary" onClick={handleLogout}>
-            Logout
-          </Button>
-        </Box>
+
       </Box>
     </Box>
   );

@@ -4,7 +4,7 @@ services:
   service1:
     build:
       context: ./backend
-      dockerfile: Dockerfile.service1
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     environment:
@@ -15,7 +15,7 @@ services:
   service2:
     build:
       context: ./frontend
-      dockerfile: Dockerfile.service2
+      dockerfile: Dockerfile
     ports:
       - "5000:5000"
     environment:

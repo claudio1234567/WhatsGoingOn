@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  service1:
+    build:
+      context: /backend
+      dockerfile: Dockerfile.service1
+    ports:
+      - "3000:3000"
+    environment:
+      - ENV_VAR1=value1
+    volumes:
+      - ./service1:/usr/src/service1
+
+  service2:
+    build:
+      context: /frontend
+      dockerfile: Dockerfile.service2
+    ports:
+      - "5000:5000"
+    environment:
+      - ENV_VAR2=value2
+    volumes:
+      - ./service2:/usr/src/service2
+
+  mongodb:
+    image: mongo:4.4-bionic
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:

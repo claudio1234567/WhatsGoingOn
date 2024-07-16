@@ -15,8 +15,9 @@ function Register() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const API_URL = process.env.REACT_APP_API_URL+"/api/auth/register" || 'http://localhost:5000/api/auth/register';
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', { nome, cognome, email, password });
+      const response = await axios.post(API_URL, { nome, cognome, email, password });
       console.log('Registration successful:', response.data);
       setSuccess('Registration successful. Redirecting to login...');
       setTimeout(() => navigate('/login'), 2000); // Reindirizza dopo 2 secondi

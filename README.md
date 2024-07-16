@@ -45,7 +45,7 @@ docker rm -f my_frontend
 
 docker stop mongodb
 docker stop my_backend
-docker my_frontend
+docker stop my_frontend
 
 # Accedi al container MongoDB
 docker exec -it mongodb mongo

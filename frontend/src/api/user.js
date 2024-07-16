@@ -2,8 +2,11 @@ import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL+"/api/user" ;
 
+
+
 export const getUserInfo = async (token) => {
   try {
+    console.log("API_URL:", API_URL); // Log del valore di API_URL
     const response = await axios.get(`${API_URL}/userinfo`, {
       headers: { 'auth-token': token }
     });

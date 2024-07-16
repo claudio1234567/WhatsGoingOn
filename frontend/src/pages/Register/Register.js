@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Container, TextField, Button, Typography, Box, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import './Register.css';
-require('dotenv').config();
 
 
 function Register() {

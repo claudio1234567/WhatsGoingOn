@@ -1,6 +1,7 @@
 import axios from 'axios';
+require('dotenv').config();
 
-const API_URL = process.env.REACT_APP_API_URL+"/api/user" || 'http://localhost:5000/api/user';
+const API_URL = process.env.REACT_APP_API_URL+"/api/user" ;
 
 export const getUserInfo = async (token) => {
   try {

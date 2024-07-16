@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = $REACT_APP_API_URL+"/api/user" ;
+const API_URL = {{project.NODE_ENV}}+"/api/user" ;
 
 
 
